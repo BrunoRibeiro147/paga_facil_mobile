@@ -3,6 +3,7 @@ import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:paga_facil/app/modules/home/submodules/creditCard/creditcard_controller.dart';
 
 import 'widgets/bank_card.dart';
@@ -138,9 +139,12 @@ class _CreditCardPageState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Pague Fácil',
-          style: TextStyle(color: Colors.deepPurpleAccent),
+        title: Center(
+          child: SvgPicture.asset(
+            'images/logo.svg',
+            height: MediaQuery.of(context).size.height * 0.07,
+            fit: BoxFit.contain,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,

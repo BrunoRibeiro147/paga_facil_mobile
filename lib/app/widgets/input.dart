@@ -7,9 +7,15 @@ class Input extends StatefulWidget {
   final TextInputType type;
   final MaskTextInputFormatter formatter;
   final int limit;
+  final Function onChanged;
 
-  Input(
-      {@required this.label, @required this.type, this.formatter, this.limit});
+  Input({
+    @required this.label,
+    @required this.type,
+    this.formatter,
+    this.limit,
+    this.onChanged,
+  });
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -21,8 +27,8 @@ class _SearchBarState extends State<Input> {
     return Container(
       height: 60,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
         color: Color(0xffE8E8E8),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -30,6 +36,9 @@ class _SearchBarState extends State<Input> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: TextField(
+              onChanged: (value) {
+                widget.onChanged(value);
+              },
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '${widget.label}',

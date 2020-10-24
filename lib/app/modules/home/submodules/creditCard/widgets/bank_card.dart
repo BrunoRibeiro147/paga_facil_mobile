@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:paga_facil/app/modules/home/submodules/creditCard/pages/NewCard/newcard_controller.dart';
 import '../models/card_detail_model.dart';
 
-class BankCard extends StatelessWidget {
+class BankCard extends StatefulWidget {
   final CardDetail cardDetail;
 
-  const BankCard({this.cardDetail});
+  BankCard({this.cardDetail});
+
+  @override
+  _BankCardState createState() => _BankCardState(this.cardDetail);
+}
+
+class _BankCardState extends State<BankCard> {
+  final CardDetail cardDetail;
+  NewCardController controller;
+
+  _BankCardState(this.cardDetail);
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (cardDetail == null) {
+      controller = Modular.get<NewCardController>();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,55 +51,62 @@ class BankCard extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0 * 2),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  cardDetail?.cardTitle ?? '',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+        child: Observer(builder: (_) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    cardDetail?.cardTitle ?? controller.cardTitle,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SvgPicture.asset('images/visa.svg')
-              ],
-            ),
-            Text(
-              this.cardDetail?.number ?? '',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 21,
-                fontWeight: FontWeight.w500,
-                shadows: [
-                  BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.10),
-                    blurRadius: 10,
-                    offset: Offset(0, 10.0 * 5),
+                  SvgPicture.asset(
+                    'images/visa.svg',
+                    height: 18,
+                    width: 18,
+                    fit: BoxFit.contain,
                   )
                 ],
               ),
-            ),
-            Row(
-              children: <Widget>[
-                CardTextField(
-                  label: 'Titular do Cartão',
-                  value: this.cardDetail?.name ?? '',
+              Text(
+                this.cardDetail?.number ?? controller.number,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w500,
+                  shadows: [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.10),
+                      blurRadius: 10,
+                      offset: Offset(0, 10.0 * 5),
+                    )
+                  ],
                 ),
-                Spacer(),
-                CardTextField(
-                  label: 'Validade',
-                  value: this.cardDetail?.expiry ?? '',
-                ),
-                Spacer()
-              ],
-            )
-          ],
-        ),
+              ),
+              Row(
+                children: <Widget>[
+                  CardTextField(
+                    label: 'Titular do Cartão',
+                    value: this.cardDetail?.name ?? controller.name,
+                  ),
+                  Spacer(),
+                  CardTextField(
+                    label: 'Validade',
+                    value: this.cardDetail?.expiry ?? controller.expirity,
+                  ),
+                  Spacer()
+                ],
+              )
+            ],
+          );
+        }),
       ),
     );
   }

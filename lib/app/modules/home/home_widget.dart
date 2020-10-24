@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:paga_facil/app/modules/home/submodules/simulation/simulation_module.dart';
 
 // import 'home_controller.dart';
 import 'pages/Payment/payment_page.dart';
-import 'pages/Simulation/simulation_page.dart';
 import 'submodules/creditCard/creditcard_module.dart';
 import 'widgets/custom_bottomNavigation.dart';
 
@@ -32,11 +32,9 @@ class _HomePageState extends State<HomePage> {
         controller: pageViewController,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
+          RouterOutlet(module: SimulationModule()),
+          RouterOutlet(module: CreditCardModule()),
           PaymentPage(),
-          RouterOutlet(
-            module: CreditCardModule(),
-          ),
-          SimulationPage(),
         ],
       ),
       bottomNavigationBar: AnimatedBuilder(

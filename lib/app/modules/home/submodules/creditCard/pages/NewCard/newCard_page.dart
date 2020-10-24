@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:paga_facil/app/modules/home/submodules/creditCard/pages/NewCard/newcard_controller.dart';
 import 'package:paga_facil/app/modules/home/submodules/creditCard/widgets/bank_card.dart';
 import 'package:paga_facil/app/widgets/input.dart';
 
@@ -11,7 +13,7 @@ class NewCard extends StatefulWidget {
   _NewCardState createState() => _NewCardState();
 }
 
-class _NewCardState extends State<NewCard> {
+class _NewCardState extends ModularState<NewCard, NewCardController> {
   var creditNumberFormatter = new MaskTextInputFormatter(
       mask: '#### #### #### ###', filter: {"#": RegExp(r'[0-9]')});
 
@@ -31,6 +33,7 @@ class _NewCardState extends State<NewCard> {
         centerTitle: true,
       ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -64,6 +67,7 @@ class _NewCardState extends State<NewCard> {
                       child: Input(
                         label: 'Cartão X',
                         type: TextInputType.text,
+                        onChanged: controller.changeCardTitle,
                       ),
                     ),
                     Text('Titulo do Cartão'),
@@ -72,6 +76,7 @@ class _NewCardState extends State<NewCard> {
                       child: Input(
                         label: 'José da Silva',
                         type: TextInputType.text,
+                        onChanged: controller.changeCardName,
                       ),
                     ),
                     Text('Número do Cartão'),
@@ -81,6 +86,7 @@ class _NewCardState extends State<NewCard> {
                         label: '**** **** **** 560',
                         type: TextInputType.number,
                         formatter: creditNumberFormatter,
+                        onChanged: controller.changeCardNumber,
                       ),
                     ),
                     Row(
@@ -98,6 +104,7 @@ class _NewCardState extends State<NewCard> {
                                   label: '***',
                                   type: TextInputType.number,
                                   formatter: cvvFormmater,
+                                  onChanged: controller.changeCardCvv,
                                 ),
                               ),
                             ],
@@ -115,6 +122,7 @@ class _NewCardState extends State<NewCard> {
                                   label: 'MM/YY',
                                   type: TextInputType.number,
                                   formatter: expirationFormmater,
+                                  onChanged: controller.changeCardExpirity,
                                 ),
                               ),
                             ],
@@ -123,7 +131,6 @@ class _NewCardState extends State<NewCard> {
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 10.0),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
@@ -138,6 +145,7 @@ class _NewCardState extends State<NewCard> {
                               setState(() {
                                 _cardValue = value;
                               });
+                              controller.changeCardFlag(value);
                             },
                             items: [
                               DropdownMenuItem(
@@ -217,7 +225,11 @@ class _NewCardState extends State<NewCard> {
                           width: MediaQuery.of(context).size.width * 0.85,
                           height: 60,
                           child: RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              print(
+                                '${controller.cardTitle}\n ${controller.name}\n ${controller.number}\n ${controller.cvv}\n ${controller.expirity}\n ${controller.cardFlag}',
+                              );
+                            },
                             color: Theme.of(context).buttonColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

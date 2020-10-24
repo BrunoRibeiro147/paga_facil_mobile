@@ -107,6 +107,10 @@ class LoginOptions extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.90,
                         child: Column(
                           children: <Widget>[
+                            SvgPicture.asset(
+                              'images/logo.svg',
+                              color: Colors.white,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 18),
                               child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PaymentPage extends StatefulWidget {
   PaymentPage({Key key}) : super(key: key);
@@ -12,9 +13,12 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Pague Fácil',
-          style: TextStyle(color: Colors.deepPurpleAccent),
+        title: Center(
+          child: SvgPicture.asset(
+            'images/logo.svg',
+            height: MediaQuery.of(context).size.height * 0.07,
+            fit: BoxFit.contain,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
